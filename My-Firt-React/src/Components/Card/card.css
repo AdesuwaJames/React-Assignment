@@ -1,0 +1,17 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  max-width: calc(1280px - 2rem);
+  margin: 2rem auto;
+}
+.like-icon{
+  width: 10%;
+  height: 10%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.card__content {
+  display: flex;
+  justify-content: space-between;
+}
