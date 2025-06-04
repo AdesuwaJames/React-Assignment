@@ -252,7 +252,7 @@ const Home = () => {
 
       {editProfileModal && (
         <div className="modal">
-          <form onSubmit={handleProfileSubmit} className="modal_content">
+          <form onSubmit={handleProfileSubmit} className="modal-content">
             <h2>Edit Profile</h2>
             <input
               type="text"
