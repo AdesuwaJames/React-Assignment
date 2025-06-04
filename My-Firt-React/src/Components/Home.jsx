@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Header/Header";
-import Hero from "../Hero/Hero";
-import Card from "../Card/Card";
-import "../Hero/hero.css";
-import avatar from "../../assets/Avatar.png";
-import editProfile from "../../assets/Group 2.svg";
-import newPost from "../../assets/Group 26.svg";
-import valThorens from "../../assets/val-thorens.svg";
-import restaurantTerrace from "../../assets/restaurant-terrace.svg";
-import outdoorCafe from "../../assets/an-outdoor-cafe.svg";
-import bridgeForest from "../../assets/mask-group-3.png";
-import morningTunnel from "../../assets/mask-group-4.png";
-import mountainHouse from "../../assets/mask-group-6.png";
+import Header from "./Header";
+import Card from "./Card";
+import "./home.css";
+import avatar from "../assets/Avatar.png";
+import editProfile from "../assets/Group 2.svg";
+import newPost from "../assets/Group 26.svg";
+import valThorens from "../assets/val-thorens.svg";
+import restaurantTerrace from "../assets/restaurant-terrace.svg";
+import outdoorCafe from "../assets/an-outdoor-cafe.svg";
+import bridgeForest from "../assets/mask-group-3.png";
+import morningTunnel from "../assets/mask-group-4.png";
+import mountainHouse from "../assets/mask-group-6.png";
 
 export const defaultCards = [
   {
@@ -63,7 +62,10 @@ const fileToBase64 = (file) => {
 
 const Home = () => {
   const [editProfileModal, setEditProfileModal] = useState(false);
-  const [profile, setProfile] = useState({ name: "Bessie Coleman", image: null });
+  const [profile, setProfile] = useState({
+    name: "Bessie Coleman",
+    image: null,
+  });
   const [cards, setCards] = useState([]);
   const [likedCards, setLikedCards] = useState([]);
   const [preview, setPreview] = useState(null);
@@ -108,7 +110,8 @@ const Home = () => {
   const handleNewPostSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
-    if (form.title.length < 2) newErrors.title = "Minimum 2 characters required";
+    if (form.title.length < 2)
+      newErrors.title = "Minimum 2 characters required";
     if (!form.image) newErrors.image = "Image is required";
 
     if (Object.keys(newErrors).length > 0) {
@@ -134,67 +137,68 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <main className="main_hero" aria-label="Hero Section">
-        <div className="hero">
-          <div className="hero__left" aria-label="Hero Left Section">
-            <img
-              src={profile.image || avatar}
-              alt="Profile picture of person"
-              className="hero__img"
-              id="currentProfileImg"
-            />
-            <div className="hero__profile" aria-label="Hero Profile Section">
-              <section className="hero__profile--top">
-                <h2 className="hero__name" id="currentName">
-                  {profile.name}
-                </h2>
-                <h3 className="hero__bio" id="currentBio">
-                  Civil Aviator
-                </h3>
-              </section>
+      <div className="home">
+        <div className="home__container" aria-label="Home Container">
+          <main className="main_hero" aria-label="Hero Section">
+            <div className="hero">
+              <div className="hero__left" aria-label="Hero Left Section">
+                <img
+                  src={profile.image || avatar}
+                  alt="Profile picture of person"
+                  className="hero__img"
+                  id="currentProfileImg"
+                />
+                <div
+                  className="hero__profile"
+                  aria-label="Hero Profile Section">
+                  <section className="hero__profile--top">
+                    <h2 className="hero__name" id="currentName">
+                      {profile.name}
+                    </h2>
+                    <h3 className="hero__bio" id="currentBio">
+                      Civil Aviator
+                    </h3>
+                  </section>
+                  <button
+                    className="hero__edit"
+                    id="editProfileBtn"
+                    aria-label="Edit Profile Button"
+                    onClick={() => setEditProfileModal(true)}>
+                    <img src={editProfile} alt="Edit Profile Icon" />
+                    Edit Profile
+                  </button>
+                </div>
+              </div>
               <button
-                className="hero__edit"
-                id="editProfileBtn"
-                aria-label="Edit Profile Button"
-                onClick={() => setEditProfileModal(true)}
-              >
-                <img src={editProfile} alt="Edit Profile Icon" />
-                Edit Profile
+                className="new_post"
+                aria-label="New Post Button"
+                onClick={() => setNewPostModal(true)}>
+                <img
+                  src={newPost}
+                  alt="New Post Icon"
+                  style={{ backgroundColor: "black", marginRight: 10 }}
+                />
+                New Post
               </button>
             </div>
+            <hr />
+          </main>
+
+          <div className="card-container">
+            {cards.map((card, i) => (
+              <Card
+                key={card.id}
+                index={i}
+                card={card}
+                liked={likedCards.includes(i)}
+                toggleLike={toggleLike}
+                setPreview={setPreview}
+              />
+            ))}
           </div>
-          <button className="new_post" aria-label="New Post Button" onClick={() => setNewPostModal(true)}>
-            <img
-              src={newPost}
-              alt="New Post Icon"
-              style={{ backgroundColor: "black", marginRight: 10 }}
-            />
-            New Post
-          </button>
         </div>
-        <hr />
-      </main>
-      
-      <div className="card-container" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '20px',
-        padding: '20px',
-        maxWidth: '1200px',
-        margin: '0 auto'
-      }}>
-        {cards.map((card, i) => (
-          <Card
-            key={card.id}
-            index={i}
-            card={card}
-            liked={likedCards.includes(i)}
-            toggleLike={toggleLike}
-            setPreview={setPreview}
-          />
-        ))}
       </div>
-      
+
       {/* Rest of your modal code remains the same */}
       {newPostModal && (
         <div className="modal">
@@ -235,7 +239,11 @@ const Home = () => {
       {preview && (
         <div className="modal" onClick={() => setPreview(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <img src={preview.imgSrc} alt={preview.name} className="preview-image" />
+            <img
+              src={preview.imgSrc}
+              alt={preview.name}
+              className="preview-image"
+            />
             <h3>{preview.name}</h3>
             <button onClick={() => setPreview(null)}>Close</button>
           </div>
@@ -271,7 +279,7 @@ const Home = () => {
         </div>
       )}
 
-       <footer aria-label="Site Footer" className="footer">
+      <footer aria-label="Site Footer" className="footer">
         <p>2024 © Spots</p>
       </footer>
     </div>
